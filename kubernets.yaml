@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lokesh-namespace
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-deployment  
+  namespace: lokesh-namespace 
+spec:
+  replics: 2
+  selector:
+    matchLabels:
+      app: python-label
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavaible: 1
+  template:
+    metadata:
+      labels:
+        app: python-label
+    spec:
+      containers:
+        - name: lokesh-container
+          image: docker.io/lokeshudatha/python:v1
+          ports:
+            - containerPort: 5000
