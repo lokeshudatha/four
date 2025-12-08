@@ -1,18 +1,10 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: lokesh-namespace
-
-
----
-apiVersion: v1
 kind: Pod
 metadata:
   name: lokesh-pod
-  namespace: lokesh-namespace
 spec:
   containers:
     - name: lokesh-container
       image: docker.io/lokeshudatha/python:v1
       ports:
-        - containerPort: 80
+        - containerPort: 5000
