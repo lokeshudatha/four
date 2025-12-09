@@ -2,9 +2,10 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: lokesh-pod
+  namespace: harness-delegate-ng
 spec:
   containers:
     - name: lokesh-container
-      image: docker.io/lokeshudatha/python:v1
+      image: docker.io/lokeshudatha/python:v2
       ports:
         - containerPort: 5000
