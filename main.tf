@@ -42,12 +42,14 @@ resource "google_compute_instance" "loki" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
-  }
+  ssh-keys = "ubuntu:${var.ssh_public_key}"
+}
+
 
   depends_on = [
     google_compute_subnetwork.lokisubnetwork
   ]
+  
 }
 
 # -----------------------------
@@ -65,6 +67,7 @@ resource "google_compute_firewall" "lokifirewall" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+  
 }
 
 # -----------------------------
@@ -87,7 +90,17 @@ output "ssh_username" {
 }
 
 # SSH Private Key (needed for Harness Build Stage)
-output "ssh_private_key" {
-  value     = file("~/.ssh/id_rsa")
+
+variable "ssh_public_key" {
+  type = string
+}
+
+variable "ssh_private_key" {
+  type = string
   sensitive = true
 }
+output "ssh_private_key" {
+  value     = var.ssh_private_key
+  sensitive = true
+}
+
