@@ -39,17 +39,7 @@ resource "google_compute_instance" "loki" {
     subnetwork = google_compute_subnetwork.lokisubnetwork.id
 
     access_config {}   # Enables public IP
-  }
-
-  metadata = {
-  ssh-keys = "ubuntu:${var.ssh_public_key}"
-}
-
-
-  depends_on = [
-    google_compute_subnetwork.lokisubnetwork
-  ]
-  
+  } 
 }
 
 # -----------------------------
@@ -68,39 +58,5 @@ resource "google_compute_firewall" "lokifirewall" {
 
   source_ranges = ["0.0.0.0/0"]
   
-}
-
-# -----------------------------
-# Outputs for Harness Build Stage
-# -----------------------------
-
-# Public IP of VM
-output "vm_public_ip" {
-  value = google_compute_instance.loki.network_interface[0].access_config[0].nat_ip
-}
-
-# Private IP (if needed)
-output "vm_private_ip" {
-  value = google_compute_instance.loki.network_interface[0].network_ip
-}
-
-# SSH User
-output "ssh_username" {
-  value = "ubuntu"
-}
-
-# SSH Private Key (needed for Harness Build Stage)
-
-variable "ssh_public_key" {
-  type = string
-}
-
-variable "ssh_private_key" {
-  type = string
-  sensitive = true
-}
-output "ssh_private_key" {
-  value     = var.ssh_private_key
-  sensitive = true
 }
 
